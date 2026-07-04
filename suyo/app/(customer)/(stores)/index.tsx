@@ -20,13 +20,18 @@ export default function StoresScreen() {
 
   async function fetchStores() {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("stores")
-      .select("id, name, description, is_active")
-      .eq("is_active", true);
+    try {
+      const { data, error } = await supabase
+        .from("stores")
+        .select("id, name, description, is_active")
+        .eq("is_active", true);
 
-    if (!error && data) setStores(data);
-    setLoading(false);
+      if (!error && data) setStores(data);
+    } catch (e) {
+      console.warn("Failed to fetch stores:", e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   if (loading) {

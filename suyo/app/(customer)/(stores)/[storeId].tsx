@@ -28,23 +28,28 @@ export default function ProductsScreen() {
 
   async function fetchData() {
     setLoading(true);
-    const [catRes, prodRes] = await Promise.all([
-      supabase
-        .from("categories")
-        .select("id, name")
-        .eq("store_id", storeId)
-        .order("sort_order"),
-      supabase
-        .from("products")
-        .select("id, name, description, price, is_available, category_id")
-        .eq("store_id", storeId)
-        .eq("is_available", true)
-        .order("name"),
-    ]);
+    try {
+      const [catRes, prodRes] = await Promise.all([
+        supabase
+          .from("categories")
+          .select("id, name")
+          .eq("store_id", storeId)
+          .order("sort_order"),
+        supabase
+          .from("products")
+          .select("id, name, description, price, is_available, category_id")
+          .eq("store_id", storeId)
+          .eq("is_available", true)
+          .order("name"),
+      ]);
 
-    if (catRes.data) setCategories(catRes.data);
-    if (prodRes.data) setProducts(prodRes.data);
-    setLoading(false);
+      if (catRes.data) setCategories(catRes.data);
+      if (prodRes.data) setProducts(prodRes.data);
+    } catch (e) {
+      console.warn("Failed to fetch products:", e);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function addToCart(product: Product) {

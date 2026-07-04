@@ -28,15 +28,20 @@ export default function OrdersScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchOrders = useCallback(async () => {
-    const { data } = await supabase
-      .from("orders")
-      .select("id, type, status, total, notes, delivery_address, created_at, stores(name)")
-      .eq("customer_id", CUSTOMER_ID)
-      .order("created_at", { ascending: false });
+    try {
+      const { data } = await supabase
+        .from("orders")
+        .select("id, type, status, total, notes, delivery_address, created_at, stores(name)")
+        .eq("customer_id", CUSTOMER_ID)
+        .order("created_at", { ascending: false });
 
-    if (data) setOrders(data as unknown as CustomerOrder[]);
-    setLoading(false);
-    setRefreshing(false);
+      if (data) setOrders(data as unknown as CustomerOrder[]);
+    } catch (e) {
+      console.warn("Failed to fetch orders:", e);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, []);
 
   useEffect(() => {

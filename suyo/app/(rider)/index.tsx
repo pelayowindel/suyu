@@ -17,17 +17,22 @@ export default function AvailableOrdersScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchOrders = useCallback(async () => {
-    const { data } = await supabase
-      .from("orders")
-      .select(
-        "id, type, status, total, delivery_address, notes, created_at, users!orders_customer_id_fkey(full_name), stores(name)",
-      )
-      .in("status", ["pending", "confirmed", "ready_for_pickup"])
-      .order("created_at", { ascending: false });
+    try {
+      const { data } = await supabase
+        .from("orders")
+        .select(
+          "id, type, status, total, delivery_address, notes, created_at, users!orders_customer_id_fkey(full_name), stores(name)",
+        )
+        .in("status", ["pending", "confirmed", "ready_for_pickup"])
+        .order("created_at", { ascending: false });
 
-    if (data) setOrders(data as unknown as RiderOrder[]);
-    setLoading(false);
-    setRefreshing(false);
+      if (data) setOrders(data as unknown as RiderOrder[]);
+    } catch (e) {
+      console.warn("Failed to fetch orders:", e);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, []);
 
   useEffect(() => {

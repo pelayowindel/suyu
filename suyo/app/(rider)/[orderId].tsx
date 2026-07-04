@@ -17,22 +17,34 @@ export default function OrderDetailScreen() {
   const { orderId } = useLocalSearchParams<{ orderId: string }>();
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchOrder();
   }, []);
 
   async function fetchOrder() {
-    const { data } = await supabase
-      .from("orders")
-      .select(
-        "id, type, status, total, subtotal, delivery_fee, delivery_address, notes, created_at, users!orders_customer_id_fkey(full_name, phone), stores(name), order_items(id, name, quantity, unit_price, subtotal)",
-      )
-      .eq("id", orderId)
-      .single();
+    try {
+      const { data, error: queryError } = await supabase
+        .from("orders")
+        .select(
+          "id, type, status, total, subtotal, delivery_fee, delivery_address, notes, created_at, users!orders_customer_id_fkey(full_name, phone), stores(name), order_items(id, name, quantity, unit_price, subtotal)",
+        )
+        .eq("id", orderId)
+        .single();
 
-    if (data) setOrder(data as unknown as OrderDetail);
-    setLoading(false);
+      if (queryError) {
+        setError(queryError.message);
+      } else if (data) {
+        setOrder(data as unknown as OrderDetail);
+      } else {
+        setError("Order not found");
+      }
+    } catch (e: any) {
+      setError(e.message || "Failed to load order");
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function acceptOrder() {
@@ -49,10 +61,26 @@ export default function OrderDetailScreen() {
     router.replace(`/(rider)/delivery/${orderId}`);
   }
 
-  if (loading || !order) {
+  if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
         <ActivityIndicator size="large" color="#22c55e" />
+      </View>
+    );
+  }
+
+  if (error || !order) {
+    return (
+      <View className="flex-1 items-center justify-center bg-white px-6">
+        <Text className="text-center text-base text-red-500">
+          {error || "Order not found"}
+        </Text>
+        <TouchableOpacity
+          className="mt-4 rounded-lg bg-green-500 px-6 py-3"
+          onPress={() => router.back()}
+        >
+          <Text className="font-semibold text-white">Go Back</Text>
+        </TouchableOpacity>
       </View>
     );
   }
