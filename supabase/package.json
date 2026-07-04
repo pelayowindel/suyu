@@ -1,0 +1,20 @@
+{
+  "name": "suyo-supabase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Supabase migrations and database management for Suyo",
+  "scripts": {
+    "start": "npx supabase start",
+    "stop": "npx supabase stop",
+    "status": "npx supabase status",
+    "reset": "npx supabase db reset",
+    "migrate": "npx supabase db push",
+    "migrate:new": "npx supabase migration new",
+    "seed": "npx supabase db reset --seed-only",
+    "diff": "npx supabase db diff --use-migra",
+    "types": "npx supabase gen types typescript --local > ../suyo/src/types/database.ts"
+  },
+  "devDependencies": {
+    "supabase": "^2"
+  }
+}
