@@ -7,7 +7,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { supabase } from "../../lib/supabase";
-import type { CustomerOrder } from "../../types";
+import type { CustomerOrder } from "./../../types";
 
 const CUSTOMER_ID = "86e91eeb-a28c-497e-8e20-4448e253247a";
 
