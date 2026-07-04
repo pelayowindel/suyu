@@ -7,39 +7,14 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
+import { useLocalSearchParams, router } from "expo-router";
 import { supabase } from "../../lib/supabase";
-import type { RiderStackScreenProps } from "../../types/navigation";
+import type { OrderDetail } from "../../types";
 
 const RIDER_ID = "67b6cba4-138d-48eb-84e5-421c079231c2";
 
-type OrderItem = {
-  id: string;
-  name: string;
-  quantity: number;
-  unit_price: number;
-  subtotal: number;
-};
-
-type OrderDetail = {
-  id: string;
-  type: string;
-  status: string;
-  total: number;
-  subtotal: number;
-  delivery_fee: number;
-  delivery_address: string | null;
-  notes: string | null;
-  created_at: string;
-  users: { full_name: string; phone: string | null } | null;
-  stores: { name: string } | null;
-  order_items: OrderItem[];
-};
-
-export default function OrderDetailScreen({
-  navigation,
-  route,
-}: RiderStackScreenProps<"OrderDetail">) {
-  const { orderId } = route.params;
+export default function OrderDetailScreen() {
+  const { orderId } = useLocalSearchParams<{ orderId: string }>();
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -71,7 +46,7 @@ export default function OrderDetailScreen({
       return;
     }
 
-    navigation.replace("ActiveDelivery", { orderId });
+    router.replace(`/(rider)/delivery/${orderId}`);
   }
 
   if (loading || !order) {

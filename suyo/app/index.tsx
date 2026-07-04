@@ -1,9 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import type { RootStackScreenProps } from "../types/navigation";
+import { router } from "expo-router";
 
-export default function RoleSelectScreen({
-  navigation,
-}: RootStackScreenProps<"RoleSelect">) {
+export default function RoleSelectScreen() {
   return (
     <View className="flex-1 items-center justify-center bg-white px-6">
       <Text className="mb-2 text-3xl font-bold text-gray-900">Suyo</Text>
@@ -13,7 +11,7 @@ export default function RoleSelectScreen({
 
       <TouchableOpacity
         className="mb-4 w-full rounded-xl bg-blue-500 py-4"
-        onPress={() => navigation.navigate("CustomerTabs")}
+        onPress={() => router.push("/(customer)/(stores)")}
       >
         <Text className="text-center text-lg font-semibold text-white">
           I'm a Customer
@@ -25,7 +23,7 @@ export default function RoleSelectScreen({
 
       <TouchableOpacity
         className="w-full rounded-xl bg-green-500 py-4"
-        onPress={() => navigation.navigate("RiderStack")}
+        onPress={() => router.push("/(rider)")}
       >
         <Text className="text-center text-lg font-semibold text-white">
           I'm a Rider

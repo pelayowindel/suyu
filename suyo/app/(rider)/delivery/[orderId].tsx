@@ -6,24 +6,12 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { supabase } from "../../lib/supabase";
-import type { RiderStackScreenProps } from "../../types/navigation";
+import { useLocalSearchParams, router } from "expo-router";
+import { supabase } from "../../../lib/supabase";
+import type { ActiveOrder } from "../../../types";
 
-type ActiveOrder = {
-  id: string;
-  status: string;
-  total: number;
-  delivery_address: string | null;
-  notes: string | null;
-  users: { full_name: string; phone: string | null } | null;
-  stores: { name: string } | null;
-};
-
-export default function ActiveDeliveryScreen({
-  navigation,
-  route,
-}: RiderStackScreenProps<"ActiveDelivery">) {
-  const { orderId } = route.params;
+export default function ActiveDeliveryScreen() {
+  const { orderId } = useLocalSearchParams<{ orderId: string }>();
   const [order, setOrder] = useState<ActiveOrder | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -57,7 +45,7 @@ export default function ActiveDeliveryScreen({
 
     if (newStatus === "delivered") {
       Alert.alert("Delivered!", "Order has been marked as delivered.", [
-        { text: "OK", onPress: () => navigation.popToTop() },
+        { text: "OK", onPress: () => router.replace("/(rider)") },
       ]);
     } else {
       setOrder((prev) => (prev ? { ...prev, status: newStatus } : null));

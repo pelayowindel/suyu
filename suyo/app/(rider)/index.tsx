@@ -7,25 +7,12 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
+import { router } from "expo-router";
 import { supabase } from "../../lib/supabase";
-import type { RiderStackScreenProps } from "../../types/navigation";
+import type { RiderOrder } from "../../types";
 
-type Order = {
-  id: string;
-  type: string;
-  status: string;
-  total: number;
-  delivery_address: string | null;
-  notes: string | null;
-  created_at: string;
-  users: { full_name: string } | null;
-  stores: { name: string } | null;
-};
-
-export default function AvailableOrdersScreen({
-  navigation,
-}: RiderStackScreenProps<"AvailableOrders">) {
-  const [orders, setOrders] = useState<Order[]>([]);
+export default function AvailableOrdersScreen() {
+  const [orders, setOrders] = useState<RiderOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -38,7 +25,7 @@ export default function AvailableOrdersScreen({
       .in("status", ["pending", "confirmed", "ready_for_pickup"])
       .order("created_at", { ascending: false });
 
-    if (data) setOrders(data as unknown as Order[]);
+    if (data) setOrders(data as unknown as RiderOrder[]);
     setLoading(false);
     setRefreshing(false);
   }, []);
@@ -72,9 +59,7 @@ export default function AvailableOrdersScreen({
         renderItem={({ item }) => (
           <TouchableOpacity
             className="mb-3 rounded-xl bg-white p-4 shadow-sm"
-            onPress={() =>
-              navigation.navigate("OrderDetail", { orderId: item.id })
-            }
+            onPress={() => router.push(`/(rider)/${item.id}`)}
           >
             <View className="flex-row items-center justify-between">
               <Text className="text-base font-semibold text-gray-900">

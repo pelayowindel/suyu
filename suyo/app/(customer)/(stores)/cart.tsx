@@ -7,17 +7,13 @@ import {
   Alert,
   TextInput,
 } from "react-native";
-import { supabase } from "../../lib/supabase";
-import { cart, clearCart } from "./ProductsScreen";
-import type { CustomerStoresStackScreenProps } from "../../types/navigation";
+import { router } from "expo-router";
+import { supabase } from "../../../lib/supabase";
+import { cart, clearCart } from "./[storeId]";
 
 const CUSTOMER_ID = "86e91eeb-a28c-497e-8e20-4448e253247a";
 
-export default function CartScreen({
-  navigation,
-  route,
-}: CustomerStoresStackScreenProps<"Cart">) {
-  const { storeId } = route.params;
+export default function CartScreen() {
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -36,6 +32,17 @@ export default function CartScreen({
     }
 
     setSubmitting(true);
+
+    // Get store_id from first cart item
+    const storeId = cart[0]?.product
+      ? (
+          await supabase
+            .from("products")
+            .select("store_id")
+            .eq("id", cart[0].product.id)
+            .single()
+        ).data?.store_id
+      : null;
 
     const { data: order, error: orderError } = await supabase
       .from("orders")
@@ -81,7 +88,7 @@ export default function CartScreen({
 
     clearCart();
     Alert.alert("Order Placed!", "Your order has been submitted.", [
-      { text: "OK", onPress: () => navigation.popToTop() },
+      { text: "OK", onPress: () => router.replace("/(customer)/(stores)") },
     ]);
   }
 

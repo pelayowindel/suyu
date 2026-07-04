@@ -6,19 +6,11 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { supabase } from "../../lib/supabase";
-import type { CustomerStoresStackScreenProps } from "../../types/navigation";
+import { router } from "expo-router";
+import { supabase } from "../../../lib/supabase";
+import type { Store } from "../../../types";
 
-type Store = {
-  id: string;
-  name: string;
-  description: string | null;
-  is_active: boolean;
-};
-
-export default function StoresScreen({
-  navigation,
-}: CustomerStoresStackScreenProps<"StoresList">) {
+export default function StoresScreen() {
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,12 +46,7 @@ export default function StoresScreen({
         renderItem={({ item }) => (
           <TouchableOpacity
             className="mb-3 rounded-xl bg-white p-4 shadow-sm"
-            onPress={() =>
-              navigation.navigate("Products", {
-                storeId: item.id,
-                storeName: item.name,
-              })
-            }
+            onPress={() => router.push(`/(customer)/(stores)/${item.id}`)}
           >
             <Text className="text-lg font-semibold text-gray-900">
               {item.name}

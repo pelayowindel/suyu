@@ -7,19 +7,9 @@ import {
   RefreshControl,
 } from "react-native";
 import { supabase } from "../../lib/supabase";
+import type { CustomerOrder } from "../../types";
 
 const CUSTOMER_ID = "86e91eeb-a28c-497e-8e20-4448e253247a";
-
-type Order = {
-  id: string;
-  type: string;
-  status: string;
-  total: number;
-  notes: string | null;
-  delivery_address: string | null;
-  created_at: string;
-  stores: { name: string } | null;
-};
 
 const statusColors: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
@@ -33,7 +23,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function OrdersScreen() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<CustomerOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -44,7 +34,7 @@ export default function OrdersScreen() {
       .eq("customer_id", CUSTOMER_ID)
       .order("created_at", { ascending: false });
 
-    if (data) setOrders(data as unknown as Order[]);
+    if (data) setOrders(data as unknown as CustomerOrder[]);
     setLoading(false);
     setRefreshing(false);
   }, []);

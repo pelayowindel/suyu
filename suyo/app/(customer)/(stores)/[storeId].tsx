@@ -6,39 +6,18 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { supabase } from "../../lib/supabase";
-import type { CustomerStoresStackScreenProps } from "../../types/navigation";
+import { useLocalSearchParams, router } from "expo-router";
+import { supabase } from "../../../lib/supabase";
+import type { Product, Category, CartItem } from "../../../types";
 
-type Product = {
-  id: string;
-  name: string;
-  description: string | null;
-  price: number;
-  is_available: boolean;
-  category_id: string | null;
-};
-
-type Category = {
-  id: string;
-  name: string;
-};
-
-type CartItem = {
-  product: Product;
-  quantity: number;
-};
-
-// Simple in-memory cart (shared via module scope for MVP)
+// Simple in-memory cart (module scope for MVP)
 export let cart: CartItem[] = [];
 export function clearCart() {
   cart = [];
 }
 
-export default function ProductsScreen({
-  navigation,
-  route,
-}: CustomerStoresStackScreenProps<"Products">) {
-  const { storeId, storeName } = route.params;
+export default function ProductsScreen() {
+  const { storeId } = useLocalSearchParams<{ storeId: string }>();
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,7 +61,6 @@ export default function ProductsScreen({
     data: products.filter((p) => p.category_id === cat.id),
   }));
 
-  // Include uncategorized
   const uncategorized = products.filter((p) => !p.category_id);
   if (uncategorized.length > 0) {
     sections.push({ title: "Other", data: uncategorized });
@@ -135,11 +113,10 @@ export default function ProductsScreen({
         }
       />
 
-      {/* View Cart Button */}
       <View className="border-t border-gray-200 bg-white px-4 py-3">
         <TouchableOpacity
           className="rounded-xl bg-blue-500 py-4"
-          onPress={() => navigation.navigate("Cart", { storeId, storeName })}
+          onPress={() => router.push("/(customer)/(stores)/cart")}
         >
           <Text className="text-center text-lg font-semibold text-white">
             View Cart
