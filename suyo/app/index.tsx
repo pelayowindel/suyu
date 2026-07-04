@@ -1,9 +1,11 @@
 import { View, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 
 export default function RoleSelectScreen() {
   return (
-    <View className="flex-1 items-center justify-center bg-white px-6">
+    <SafeAreaView className="flex-1 bg-white">
+    <View className="flex-1 items-center justify-center px-6">
       <Text className="mb-2 text-3xl font-bold text-gray-900">Suyo</Text>
       <Text className="mb-10 text-base text-gray-500">
         Select your role to continue
@@ -33,5 +35,6 @@ export default function RoleSelectScreen() {
         </Text>
       </TouchableOpacity>
     </View>
+    </SafeAreaView>
   );
 }
