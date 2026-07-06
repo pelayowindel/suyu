@@ -1,4 +1,3 @@
-import "../global.css";
 
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -6,6 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -42,6 +42,16 @@ export default function RootLayout() {
       <StatusBar style="auto" />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        
+        {/* modal */}
+        <Stack.Screen
+          name="food/[id]"
+          options={{
+            presentation: "modal", // pops up
+            animation: "slide_from_bottom",
+            headerShown: false,
+          }}
+        />
       </Stack>
     </SafeAreaProvider>
   );

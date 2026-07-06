@@ -1,6 +1,8 @@
 import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { View, Text, ScrollView, TextInput, Pressable, Image } from "react-native";
-import { BrutalCard } from "../../components/BrutalCard";
+import { RiderFeaturedCard } from "../../components/BrutalCard";
+import { TopEatsCard } from "../../components/TopEatsCard";
+import { BrutalButton } from "../../components/BrutalButton";
 
 const riderDeals = [
   {
@@ -51,7 +53,7 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-[#E9E9E9]">
       {/* Fixed top area */}
-      <View className="px-4 pt-4 pb-3 bg-[#E9E9E9]">
+      <View className="px-4 pb-3 bg-[#E9E9E9]">
         {/* Search (fixed, below header) */}
         <View className="border-2 border-black bg-white mt-4 px-3 h-14 flex-row items-center">
           <TextInput
@@ -71,18 +73,27 @@ export default function HomeScreen() {
       >
         {/* Categories (horizontal) */}
         <Text className="text-[18px] font-lexend-black tracking-widest text-[#222] mb-3">CATEGORIES</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-8">
-          <Pressable className="w-44 h-28 border-2 border-black bg-[#C7DFE8] mr-3 p-3 justify-between">
-            <MaterialCommunityIcons name="silverware-fork-knife" size={24} color="#222" />
-            <Text className="text-[30px] font-lexend-black text-[#222]">FOOD</Text>
-          </Pressable>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="mb-8"
+          contentContainerStyle={{ paddingBottom: 10, paddingRight: 8 }}
+        >
+          {/* FOOD */}
+          <View className="mr-4">
+            <BrutalButton className="w-44 h-28 bg-[#C7DFE8] p-3 justify-between" shadowClassName="w-44 h-28">
+              <MaterialCommunityIcons name="silverware-fork-knife" size={24} color="#222" />
+              <Text className="text-[18px] font-lexend-black text-[#222]">FOOD</Text>
+            </BrutalButton>
+          </View>
 
-          <Pressable className="w-44 h-28 border-2 border-black bg-[#F2055C] mr-3 p-3 justify-between">
-            <MaterialCommunityIcons name="truck-fast-outline" size={24} color="#fff" />
-            <Text className="text-[30px] font-lexend-black text-white">LOGISTICS</Text>
-          </Pressable>
-
-          <View className="w-2" />
+          {/* LOGISTICS */}
+          <View className="mr-4">
+            <BrutalButton className="w-44 h-28 bg-[#F2055C] p-3 justify-between" shadowClassName="w-44 h-28">
+              <MaterialCommunityIcons name="truck-fast-outline" size={24} color="#fff" />
+              <Text className="text-[18px] font-lexend-black text-white">LOGISTICS</Text>
+            </BrutalButton>
+          </View>
         </ScrollView>
 
         {/* Rider deals header */}
@@ -101,36 +112,20 @@ export default function HomeScreen() {
           contentContainerStyle={{ paddingBottom: 10, paddingRight: 12 }}
         >
           {riderDeals.map((d) => (
-            <BrutalCard key={d.id} d={d} />
+            <RiderFeaturedCard key={d.id} d={d} />
           ))}
         </ScrollView>
 
         {/* Top eats list */}
         <Text className="text-[28px] font-lexend-black text-[#222] mb-3">TOP EATS NEAR YOU</Text>
         {topEats.map((item) => (
-          <Pressable
-            key={item.id}
-            className="border-2 border-black bg-white p-2 mb-5 flex-row items-center"
-            style={{ shadowColor: "#000", shadowOffset: { width: 8, height: 8 }, shadowOpacity: 0, shadowRadius: 0, elevation: 8 }}
-          >
-            <Image source={{ uri: item.img }} className="w-20 h-16 border border-zinc-400" />
-            <View className="flex-1 ml-3">
-              <Text className="text-[26px] font-lexend-black text-[#222]">{item.name}</Text>
-              <Text className="text-[11px] font-archivonarrow-regular text-[#555]">{item.sub}</Text>
-              <View className="flex-row items-center mt-1">
-                <Feather name="clock" size={12} color="#222" />
-                <Text className="ml-1 text-[11px] font-lexend-extrabold text-[#222]">{item.time}</Text>
-                <Text className="ml-3 text-[11px] font-lexend-extrabold text-[#D2195B]">↯ {item.price}</Text>
-              </View>
-            </View>
-            <Feather name="heart" size={18} color="#726F4E" />
-          </Pressable>
+          <TopEatsCard key={item.id} item={item} />
         ))}
       </ScrollView>
 
       {/* Floating yellow cart button (FAB) */}
       <Pressable
-        onPress={() => {}}
+        onPress={() => { }}
         className="absolute right-5 bottom-24 w-14 h-14 border-2 border-black bg-[#F2EF45] items-center justify-center"
       >
         <Feather name="shopping-cart" size={22} color="#222" />

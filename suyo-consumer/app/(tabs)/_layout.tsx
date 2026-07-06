@@ -22,12 +22,12 @@ export default function TabsLayout() {
         tabBarInactiveTintColor: "#6b7280",
         header: () => (
           <SafeAreaView edges={["top"]} className="bg-[#F4F4F4]">
-            <View className="border-2 border-black bg-[#F4F4F4] px-4 h-14 flex-row items-center justify-between">
+            <View className="border-black border-b-4 bg-[#F4F4F4] px-4 h-20 flex-row items-center justify-between">
               <View className="flex-row items-center gap-3">
-                <Feather name="menu" size={18} color="#222" />
-                <Text className="font-lexend-black text-[28px] text-[#222]">FAST-TRACK</Text>
+                <Feather name="zap" size={40} color="#222" />
+                <Text className="font-lexend-black text-[40px] text-[#222]">FAST-TRACK</Text>
               </View>
-              <Ionicons name="person-circle-outline" size={22} color="#7A7A2A" />
+              <Ionicons name="person-circle-outline" size={40} color="#7A7A2A" />
             </View>
           </SafeAreaView>
         ),
@@ -90,7 +90,7 @@ export default function TabsLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" size={size} color={color} />
+            <Ionicons name="home" size={size} color={color} />
           ),
         }}
       />
@@ -99,7 +99,7 @@ export default function TabsLayout() {
         options={{
           title: "Search",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search-outline" size={size} color={color} />
+            <Ionicons name="search" size={size} color={color} />
           ),
         }}
       />
