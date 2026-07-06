@@ -1,5 +1,6 @@
 import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { View, Text, ScrollView, TextInput, Pressable, Image } from "react-native";
+import { BrutalCard } from "../../components/BrutalCard";
 
 const riderDeals = [
   {
@@ -56,7 +57,7 @@ export default function HomeScreen() {
           <TextInput
             placeholder="WHAT ARE YOU LOOKING FOR?"
             placeholderTextColor="#333"
-            className="flex-1 text-[13px] font-extrabold text-[#222]"
+            className="flex-1 text-[13px] font-lexend-black text-[#222]"
           />
           <Feather name="search" size={20} color="#222" />
         </View>
@@ -69,16 +70,16 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Categories (horizontal) */}
-        <Text className="text-[18px] font-black tracking-widest text-[#222] mb-3">CATEGORIES</Text>
+        <Text className="text-[18px] font-lexend-black tracking-widest text-[#222] mb-3">CATEGORIES</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-8">
           <Pressable className="w-44 h-28 border-2 border-black bg-[#C7DFE8] mr-3 p-3 justify-between">
             <MaterialCommunityIcons name="silverware-fork-knife" size={24} color="#222" />
-            <Text className="text-[30px] font-black text-[#222]">FOOD</Text>
+            <Text className="text-[30px] font-lexend-black text-[#222]">FOOD</Text>
           </Pressable>
 
           <Pressable className="w-44 h-28 border-2 border-black bg-[#F2055C] mr-3 p-3 justify-between">
             <MaterialCommunityIcons name="truck-fast-outline" size={24} color="#fff" />
-            <Text className="text-[30px] font-black text-white">LOGISTICS</Text>
+            <Text className="text-[30px] font-lexend-black text-white">LOGISTICS</Text>
           </Pressable>
 
           <View className="w-2" />
@@ -86,41 +87,40 @@ export default function HomeScreen() {
 
         {/* Rider deals header */}
         <View className="flex-row items-center justify-between mb-3">
-          <Text className="text-[44px] font-black text-[#222]">RIDER DEALS</Text>
+          <Text className="text-[28px] font-lexend-black text-[#222]">RIDER DEALS</Text>
           <Pressable>
-            <Text className="text-xs font-extrabold underline text-[#222]">VIEW ALL</Text>
+            <Text className="text-xs font-lexend-extrabold underline text-[#222]">VIEW ALL</Text>
           </Pressable>
         </View>
 
         {/* Rider deals horizontal */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="mb-8">
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="mb-8"
+          contentContainerStyle={{ paddingBottom: 10, paddingRight: 12 }}
+        >
           {riderDeals.map((d) => (
-            <View key={d.id} className="w-[305px] border-2 border-black bg-white mr-4">
-              <Image source={{ uri: d.img }} className="w-full h-44" resizeMode="cover" />
-              <View className="p-3">
-                <View className="flex-row justify-between items-center mb-2">
-                  <Text className="bg-yellow-300 px-2 py-1 text-[10px] font-black">50% OFF</Text>
-                  <Text className="text-xs font-extrabold">★ {d.rating}</Text>
-                </View>
-                <Text className="text-[34px] font-black text-[#222]">{d.name}</Text>
-                <Text className="text-[11px] font-bold text-[#333]">{d.meta}</Text>
-              </View>
-            </View>
+            <BrutalCard key={d.id} d={d} />
           ))}
         </ScrollView>
 
         {/* Top eats list */}
-        <Text className="text-[44px] font-black text-[#222] mb-3">TOP EATS NEAR YOU</Text>
+        <Text className="text-[28px] font-lexend-black text-[#222] mb-3">TOP EATS NEAR YOU</Text>
         {topEats.map((item) => (
-          <Pressable key={item.id} className="border-2 border-black bg-white p-2 mb-3 flex-row items-center">
+          <Pressable
+            key={item.id}
+            className="border-2 border-black bg-white p-2 mb-5 flex-row items-center"
+            style={{ shadowColor: "#000", shadowOffset: { width: 8, height: 8 }, shadowOpacity: 0, shadowRadius: 0, elevation: 8 }}
+          >
             <Image source={{ uri: item.img }} className="w-20 h-16 border border-zinc-400" />
             <View className="flex-1 ml-3">
-              <Text className="text-[26px] font-black text-[#222]">{item.name}</Text>
-              <Text className="text-[11px] font-bold text-[#555]">{item.sub}</Text>
+              <Text className="text-[26px] font-lexend-black text-[#222]">{item.name}</Text>
+              <Text className="text-[11px] font-archivonarrow-regular text-[#555]">{item.sub}</Text>
               <View className="flex-row items-center mt-1">
                 <Feather name="clock" size={12} color="#222" />
-                <Text className="ml-1 text-[11px] font-extrabold text-[#222]">{item.time}</Text>
-                <Text className="ml-3 text-[11px] font-extrabold text-[#D2195B]">↯ {item.price}</Text>
+                <Text className="ml-1 text-[11px] font-lexend-extrabold text-[#222]">{item.time}</Text>
+                <Text className="ml-3 text-[11px] font-lexend-extrabold text-[#D2195B]">↯ {item.price}</Text>
               </View>
             </View>
             <Feather name="heart" size={18} color="#726F4E" />

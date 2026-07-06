@@ -25,7 +25,7 @@ export default function TabsLayout() {
             <View className="border-2 border-black bg-[#F4F4F4] px-4 h-14 flex-row items-center justify-between">
               <View className="flex-row items-center gap-3">
                 <Feather name="menu" size={18} color="#222" />
-                <Text className="text-3xl font-black text-[#222]">FAST-TRACK</Text>
+                <Text className="font-lexend-black text-[28px] text-[#222]">FAST-TRACK</Text>
               </View>
               <Ionicons name="person-circle-outline" size={22} color="#7A7A2A" />
             </View>
@@ -74,7 +74,7 @@ export default function TabsLayout() {
                     style={{ backgroundColor: isFocused ? TAB_YELLOW : "white" }}
                   >
                     {icon}
-                    <Text className="mt-1 text-[11px] font-extrabold tracking-wide text-[#222]">
+                    <Text className="mt-1 text-[11px] font-lexend-extrabold tracking-wide text-[#222]">
                       {String(label).toUpperCase()}
                     </Text>
                   </Pressable>
